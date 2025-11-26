@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 
 export default function Subtitle({ children }) {
-  // Change this line
   return (
     <View style={styles.subtitleContainer}>
-      <Text style={styles.subtitle}>{children}</Text> // And this line
+      <Text style={styles.subtitle}>{children}</Text>
     </View>
   );
 }

@@ -10,27 +10,37 @@ import { MEALS } from "../data/dummy-data";
 import MealDetails from "../components/MealDetails";
 import Subtitle from "../components/MealDetail/Subtitle";
 import List from "../components/MealDetail/List";
-import { useLayoutEffect, useCallback } from "react";
+import { useLayoutEffect, useCallback, useContext } from "react";
 import IconButton from "../components/IconButton";
+import FavouriteContext from "../store/context/favourite-context";
 
 function MealDetailScreen({ route, navigation }) {
+  const favouriteMealCtx = useContext(FavouriteContext);
   const mealId = route.params.mealId;
 
-  const headerButtonPressHandler = useCallback(() => {}, []);
+  const mealIsFavourite = favouriteMealCtx.ids.includes(mealId);
+
+  const changeFavoriteStatusHandler = useCallback(() => {
+    if (mealIsFavourite) {
+      favouriteMealCtx.removeFavourite(mealId);
+    } else {
+      favouriteMealCtx.addFavourite(mealId);
+    }
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
           <IconButton
-            onPress={headerButtonPressHandler}
-            icon="star"
+            onPress={changeFavoriteStatusHandler}
+            icon={mealIsFavourite ? "star" : "star-outline"}
             color="white"
           />
         );
       },
     });
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, changeFavoriteStatusHandler]);
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 

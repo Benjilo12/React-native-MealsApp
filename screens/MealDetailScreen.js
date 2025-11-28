@@ -1,66 +1,64 @@
-import {
-  Image,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Button,
-} from "react-native";
-import { MEALS } from "../data/dummy-data";
-import MealDetails from "../components/MealDetails";
-import Subtitle from "../components/MealDetail/Subtitle";
-import List from "../components/MealDetail/List";
-import { useLayoutEffect, useCallback, useContext } from "react";
+import { useContext, useLayoutEffect } from "react";
+import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import IconButton from "../components/IconButton";
-import FavouriteContext from "../store/context/favourite-context";
+import List from "../components/MealDetail/List";
+import Subtitle from "../components/MealDetail/Subtitle";
+import MealDetails from "../components/MealDetails";
+import { MEALS } from "../data/dummy-data";
+import { addFavorite, removeFavorite } from "../store/context/redux/favourite";
+// import { FavouriteContext } from "../store/context/favourite-context";
 
 function MealDetailScreen({ route, navigation }) {
-  const favouriteMealCtx = useContext(FavouriteContext);
+  // const favoriteMealsCtx = useContext(FavouriteContext);
+
+  //using redux to get the favorite meal ids
+  const favoriteMealIds = useSelector((state) => state.favouriteMeals.ids);
+  const dispatch = useDispatch();
+
   const mealId = route.params.mealId;
+  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
-  const mealIsFavourite = favouriteMealCtx.ids.includes(mealId);
+  const mealIsFavorite = favoriteMealIds.includes(mealId);
 
-  const changeFavoriteStatusHandler = useCallback(() => {
-    if (mealIsFavourite) {
-      favouriteMealCtx.removeFavourite(mealId);
+  function changeFavoriteStatusHandler() {
+    if (mealIsFavorite) {
+      // favoriteMealsCtx.removeFavorite(mealId);
+      dispatch(removeFavorite({ id: mealId }));
     } else {
-      favouriteMealCtx.addFavourite(mealId);
+      // favoriteMealsCtx.addFavourite(mealId);
+      dispatch(addFavorite({ id: mealId }));
     }
-  }, []);
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
           <IconButton
-            onPress={changeFavoriteStatusHandler}
-            icon={mealIsFavourite ? "star" : "star-outline"}
+            icon={mealIsFavorite ? "star" : "star-outline"}
             color="white"
+            onPress={changeFavoriteStatusHandler}
           />
         );
       },
     });
   }, [navigation, changeFavoriteStatusHandler]);
 
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-
   return (
     <ScrollView style={styles.rootContainer}>
       <Image style={styles.image} source={{ uri: selectedMeal.imageUrl }} />
       <Text style={styles.title}>{selectedMeal.title}</Text>
-
       <MealDetails
+        duration={selectedMeal.duration}
         complexity={selectedMeal.complexity}
         affordability={selectedMeal.affordability}
-        duration={selectedMeal.duration}
         textStyle={styles.detailText}
       />
-
       <View style={styles.listOuterContainer}>
         <View style={styles.listContainer}>
           <Subtitle>Ingredients</Subtitle>
           <List data={selectedMeal.ingredients} />
-
           <Subtitle>Steps</Subtitle>
           <List data={selectedMeal.steps} />
         </View>
@@ -73,7 +71,7 @@ export default MealDetailScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    marginBottom: 45,
+    marginBottom: 32,
   },
   image: {
     width: "100%",

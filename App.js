@@ -1,20 +1,24 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text } from "react-native";
-import CategoriesScreen from "./screens/CategoriesScreen";
+import { StyleSheet, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import MealsOverviewScreen from "./screens/MealsOverviewScreen";
-
-import FavoutiteScreen from "./screens/FavoutiteScreen";
 import { Ionicons } from "@expo/vector-icons";
-import FavouriteContextProvider from "./store/context/favourite-context";
+
+import CategoriesScreen from "./screens/CategoriesScreen";
+
 import MealDetailScreen from "./screens/MealDetailScreen";
+
+import MealsOverviewScreen from "./screens/MealsOverviewScreen";
+// import FavouriteContextProvider from "./store/context/favourite-context";
+import FavoritesScreen from "./screens/FavoritesScreen";
+import { Provider } from "react-redux";
+
+import { store } from "./store/context/redux/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-//Drawer Navigator
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
@@ -34,16 +38,16 @@ function DrawerNavigator() {
         options={{
           title: "All Categories",
           drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="list" />
+            <Ionicons name="list" color={color} size={size} />
           ),
         }}
       />
       <Drawer.Screen
-        name="Favourite"
-        component={FavoutiteScreen}
+        name="Favorites"
+        component={FavoritesScreen}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="star" size={size} color={color} />
+            <Ionicons name="star" color={color} size={size} />
           ),
         }}
       />
@@ -55,10 +59,10 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <FavouriteContextProvider>
+      {/* <FavouriteContextProvider> */}
+      <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
-            //styled header of each page
             screenOptions={{
               headerStyle: { backgroundColor: "#351401" },
               headerTintColor: "white",
@@ -72,13 +76,10 @@ export default function App() {
                 headerShown: false,
               }}
             />
-            {/* meal overview screen */}
             <Stack.Screen
               name="MealsOverview"
               component={MealsOverviewScreen}
             />
-
-            {/* meal detail screen */}
             <Stack.Screen
               name="MealDetail"
               component={MealDetailScreen}
@@ -88,7 +89,8 @@ export default function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
-      </FavouriteContextProvider>
+        {/* </FavouriteContextProvider> */}
+      </Provider>
     </>
   );
 }

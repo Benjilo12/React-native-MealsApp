@@ -1,4 +1,4 @@
-import { Pressable, Text, View, StyleSheet, Platform } from "react-native";
+import { Pressable, View, Text, StyleSheet, Platform } from "react-native";
 
 function CategoryGridTile({ title, color, onPress }) {
   return (
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 8,
     elevation: 4,
-
     backgroundColor: "white",
     shadowColor: "black",
     shadowOpacity: 0.25,
@@ -36,18 +35,18 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
-  buttonPressed: {
-    opacity: 0.5,
-  },
   button: {
     flex: 1,
+  },
+  buttonPressed: {
+    opacity: 0.5,
   },
   innerContainer: {
     flex: 1,
     padding: 16,
+    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8,
   },
   title: {
     fontWeight: "bold",

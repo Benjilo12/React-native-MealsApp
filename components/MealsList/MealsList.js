@@ -1,12 +1,11 @@
-import { FlatList, View, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 
-import Mealitem from "./Mealitem";
+import MealItem from "./Mealitem";
 
 function MealsList({ items }) {
-  //renderItem
-  function renderMealItem({ items }) {
+  function renderMealItem(itemData) {
     const item = itemData.item;
-    //helper fxn
+
     const mealItemProps = {
       id: item.id,
       title: item.title,
@@ -15,8 +14,7 @@ function MealsList({ items }) {
       complexity: item.complexity,
       duration: item.duration,
     };
-
-    return <Mealitem {...mealItemProps} />;
+    return <MealItem {...mealItemProps} />;
   }
 
   return (

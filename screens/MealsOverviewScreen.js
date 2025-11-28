@@ -1,19 +1,16 @@
-import { CATEGORIES, MEALS } from "../data/dummy-data";
+import { useLayoutEffect } from "react";
 
-import { useEffect } from "react";
 import MealsList from "../components/MealsList/MealsList";
+import { MEALS, CATEGORIES } from "../data/dummy-data";
 
 function MealsOverviewScreen({ route, navigation }) {
   const catId = route.params.categoryId;
 
-  // Filter meals by category ID
-  // Get meals by category
   const displayedMeals = MEALS.filter((mealItem) => {
     return mealItem.categoryIds.indexOf(catId) >= 0;
   });
 
-  //Getting the meals title to display on top of the page
-  useEffect(() => {
+  useLayoutEffect(() => {
     const categoryTitle = CATEGORIES.find(
       (category) => category.id === catId
     ).title;

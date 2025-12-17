@@ -56,5 +56,9 @@ Start the server
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Benjilo12/React-native-MealsApp/blob/72a5167b2db5a97b01506fd248ee4482bc8d6759/Screenshot_1765968666.png
+)
+![App Screenshot](https://github.com/Benjilo12/React-native-MealsApp/blob/72a5167b2db5a97b01506fd248ee4482bc8d6759/Screenshot_1765968681.png
+)
+![App Screenshot](https://github.com/Benjilo12/React-native-MealsApp/blob/72a5167b2db5a97b01506fd248ee4482bc8d6759/Screenshot_1765968688.png)
 
